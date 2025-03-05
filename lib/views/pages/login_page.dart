@@ -27,6 +27,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    controllerEmail.text = "123";
+    controllPw.text = "123";
     double widthScreen = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(

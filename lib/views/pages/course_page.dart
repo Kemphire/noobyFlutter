@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:convert' as convert;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app/data/classes/todo_class.dart';
 import 'package:flutter_app/views/pages/onboarding_page.dart';
 import 'package:flutter_app/views/widgets/hero_widget.dart';
 import 'package:http/http.dart' as http;
@@ -16,27 +18,36 @@ class _CoursePageState extends State<CoursePage> {
   @override
   void initState() {
     super.initState();
-    getData(); // Ensure you call getData to fetch the result
+    getData();
   }
 
-  int? expressionResult;
+  Future<Todo> getData() async {
+    try {
+      return await fetchTodo().timeout(
+        Duration(seconds: 2),
+        onTimeout: () {
+          throw TimeoutException(
+            "connection timed out. Please check your connection",
+          );
+        },
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
 
-  void getData() async {
-    var url = Uri.https("abacus.jasoncameron.dev", "/calculate", {
-      "expression": "5+3",
-    });
+  Future<Todo> fetchTodo() async {
+    var url = Uri.https("jsonplaceholder.typicode.com", "/todos/1");
 
-    var response = await http.get(url);
+    var response = await http.get(url, headers: {"accept": "application/json"});
 
     if (response.statusCode == 200) {
-      var jsonResponse =
-          convert.jsonDecode(response.body) as Map<String, dynamic>;
-      var result = jsonResponse["result"];
-      setState(() {
-        expressionResult = result; // Call setState to update the UI
-      });
+      print(response.body);
+      return Todo.fromJson(
+        convert.jsonDecode(response.body) as Map<String, dynamic>,
+      );
     } else {
-      print("Request failed with status ${response.statusCode}");
+      throw ("Request failed with status ${response.statusCode}");
     }
   }
 
@@ -44,19 +55,35 @@ class _CoursePageState extends State<CoursePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              HeroWidget(
-                title:
-                    "The result is ${expressionResult ?? "Oh no, something went wrong!"}",
-                nextPage: OnboardingPage(),
+      body: FutureBuilder<Todo>(
+        future: getData(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    HeroWidget(
+                      title: "The name is ${snapshot.data!.title}",
+                      nextPage: OnboardingPage(),
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
+            );
+          } else if (snapshot.hasError) {
+            String errorMessage;
+            if (snapshot.error is TimeoutException) {
+              errorMessage = "connection timed out";
+            } else {
+              errorMessage = "An error occurred: ${snapshot.error}";
+            }
+            return Center(child: Text(errorMessage));
+          } else {
+            return Center(child: CircularProgressIndicator.adaptive());
+          }
+        },
       ),
     );
   }
