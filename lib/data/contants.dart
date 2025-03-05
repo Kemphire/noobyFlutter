@@ -12,3 +12,10 @@ class MyTextStyle {
   );
   static const TextStyle descriptionText = TextStyle(fontSize: 16);
 }
+
+class Kvalue {
+  static const keyConcepts = "This is a key concept";
+  static const cleanUi = "This is a clena UI";
+  static const fixBugs = "This is a bug fixing challenge";
+  static const basicLayout = "This is a very basic layout";
+}

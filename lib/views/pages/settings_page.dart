@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:battery_plus/battery_plus.dart';
+import 'package:flutter_app/views/pages/expanded_flexible.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key, required this.title});
@@ -168,11 +169,20 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               FilledButton(onPressed: () => {}, child: Text("Click me")),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return ExpandedFlexiblePage();
+                      },
+                    ),
+                  );
+                },
                 style: FilledButton.styleFrom(
                   foregroundColor: Colors.redAccent,
                 ),
-                child: Text("Click Me"),
+                child: Text("Take me too flexibe and expanded page"),
               ),
               TextButton(onPressed: () {}, child: Text("Click Me")),
               OutlinedButton.icon(

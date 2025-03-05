@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/views/pages/welcome_page.dart';
-import 'package:flutter_app/views/widgets/hero_widget.dart';
 import 'package:lottie/lottie.dart';
 
 class OnboardingPage extends StatelessWidget {
@@ -13,14 +11,15 @@ class OnboardingPage extends StatelessWidget {
         leading: BackButton(
           onPressed:
               () => {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return WelcomePage();
-                    },
-                  ),
-                ),
+                // Navigator.pushReplacement(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) {
+                //       return WelcomePage();
+                //     },
+                //   ),
+                // ),
+                Navigator.pop(context),
               },
         ),
       ),
@@ -28,24 +27,24 @@ class OnboardingPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 Lottie.asset("assets/lotties/onboarding.json", height: 300.0),
-                  SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: Size(double.infinity, 40), // Adjusted size
-                      ),
-                      child: Text("Welcome Bro!"),
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(double.infinity, 40), // Adjusted size
                     ),
+                    child: Text("Welcome Bro!"),
                   ),
-                  SizedBox(height: 200),
-                ],
-              ),
+                ),
+                SizedBox(height: 200),
+              ],
+            ),
           ),
         ),
       ),

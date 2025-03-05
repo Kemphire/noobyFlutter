@@ -8,8 +8,13 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Column(
+      child: Stack(
+        alignment: Alignment.center,
         children: [
+          CircleAvatar(
+            radius: 50.0,
+            backgroundImage: AssetImage("assets/images/logo.jpg"),
+          ),
           ListTile(
             title: Text("Logout"),
             onTap:

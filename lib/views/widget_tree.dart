@@ -17,7 +17,7 @@ class WidgetTree extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Flutter is fun"),
-        centerTitle: true,
+        centerTitle: false,
         actions: [
           IconButton(
             onPressed: () async {
